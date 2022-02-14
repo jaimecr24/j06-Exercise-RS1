@@ -13,12 +13,16 @@ public class Controlador {
 
     @PostMapping("/addUser")
     public Object addUser(@RequestBody Map<String,Object> body){
+        // body must contain two items: id and name.
+        // Checking body
         String error = "Error en los datos de entrada";
         if (body==null) return error;
         if (body.get("id")==null) return error;
         long id = Long.parseLong(body.get("id").toString());
         if (body.get("name")==null) return error;
         String name = body.get("name").toString();
+        if (id<1 || name.equals("")) return error;
+        // Adding new user
         int res = lista.addUser(id,name);
         if (res==0) return "Error: el id ya existe";
         return new User(id,name);
